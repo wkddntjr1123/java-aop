@@ -1,6 +1,7 @@
 package jang.aop.config;
 
 import jang.aop.advice.LogAfterReturningAdvice;
+import jang.aop.advice.LogAfterThrowingAdvice;
 import jang.aop.advice.LogAroundAdvice;
 import jang.aop.advice.LogBeforeAdvice;
 import jang.aop.entity.Exam;
@@ -14,14 +15,14 @@ public class AppConfig {
 
     @Bean
     public Exam jangExam() {
-        return new JangExam(80, 100, 90, 100);
+        return new JangExam(800, 100, 90, 100);
     }
 
     @Bean
     public ProxyFactoryBean jangExamProxy() {
         ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
         proxyFactoryBean.setTarget(jangExam());
-        proxyFactoryBean.setInterceptorNames("logAroundAdvice", "logBeforeAdvice", "logAfterReturningAdvice");
+        proxyFactoryBean.setInterceptorNames("logAroundAdvice", "logBeforeAdvice", "logAfterReturningAdvice", "logAfterThrowingAdvice");
         return proxyFactoryBean;
     }
 
@@ -38,5 +39,10 @@ public class AppConfig {
     @Bean
     public LogAfterReturningAdvice logAfterReturningAdvice() {
         return new LogAfterReturningAdvice();
+    }
+
+    @Bean
+    public LogAfterThrowingAdvice logAfterThrowingAdvice() {
+        return new LogAfterThrowingAdvice();
     }
 }
