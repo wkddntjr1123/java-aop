@@ -44,19 +44,8 @@ public class JangExam implements Exam {
 
     @Override
     public int total() {
-        long start = System.currentTimeMillis();
-
         int result = kor + eng + math + com;
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        long end = System.currentTimeMillis();
-        String message = (end - start) + "ms 시간이 걸렸습니다.";
-        System.out.println(message);
-        
         return result;
     }
 
