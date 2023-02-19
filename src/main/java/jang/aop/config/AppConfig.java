@@ -1,6 +1,7 @@
 package jang.aop.config;
 
 import jang.aop.advice.LogAroundAdvice;
+import jang.aop.advice.LogBeforeAdvice;
 import jang.aop.entity.Exam;
 import jang.aop.entity.JangExam;
 import org.springframework.aop.framework.ProxyFactoryBean;
@@ -19,7 +20,7 @@ public class AppConfig {
     public ProxyFactoryBean jangExamProxy() {
         ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
         proxyFactoryBean.setTarget(jangExam());
-        proxyFactoryBean.setInterceptorNames("logAroundAdvice");
+        proxyFactoryBean.setInterceptorNames("logAroundAdvice", "logBeforeAdvice");
         return proxyFactoryBean;
     }
 
@@ -27,4 +28,10 @@ public class AppConfig {
     public LogAroundAdvice logAroundAdvice() {
         return new LogAroundAdvice();
     }
+
+    @Bean
+    public LogBeforeAdvice logBeforeAdvice() {
+        return new LogBeforeAdvice();
+    }
+
 }
