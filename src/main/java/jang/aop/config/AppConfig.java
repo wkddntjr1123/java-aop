@@ -7,8 +7,8 @@ import jang.aop.advice.LogBeforeAdvice;
 import jang.aop.entity.Exam;
 import jang.aop.entity.JangExam;
 import org.springframework.aop.framework.ProxyFactoryBean;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
-import org.springframework.aop.support.NameMatchMethodPointcut;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
+import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,7 +24,7 @@ public class AppConfig {
     public ProxyFactoryBean jangExamProxy() {
         ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
         proxyFactoryBean.setTarget(jangExam());
-        proxyFactoryBean.setInterceptorNames("logAroundAdvice", "classicBeforeAdvisor", "logAfterReturningAdvice", "logAfterThrowingAdvice");
+        proxyFactoryBean.setInterceptorNames("logAroundAdvice", "classicPointCutAdvisor", "classicRegPointCutAdvisor", "logAfterThrowingAdvice");
         return proxyFactoryBean;
     }
 
@@ -49,18 +49,19 @@ public class AppConfig {
     }
 
     @Bean
-    public NameMatchMethodPointcut classicPointCut() {
-        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
-        pointcut.setMappedName("total");
-        return pointcut;
+    public NameMatchMethodPointcutAdvisor classicPointCutAdvisor() {
+        NameMatchMethodPointcutAdvisor pointcutAdvisor = new NameMatchMethodPointcutAdvisor();
+        pointcutAdvisor.setAdvice(logBeforeAdvice());
+        pointcutAdvisor.setMappedNames("total", "avg");
+        return pointcutAdvisor;
     }
-    
+
     @Bean
-    public DefaultPointcutAdvisor classicBeforeAdvisor() {
-        DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
-        advisor.setPointcut(classicPointCut());
-        advisor.setAdvice(logBeforeAdvice());
-        return advisor;
+    public RegexpMethodPointcutAdvisor classicRegPointCutAdvisor() {
+        RegexpMethodPointcutAdvisor pointcutAdvisor = new RegexpMethodPointcutAdvisor();
+        pointcutAdvisor.setAdvice(logAfterReturningAdvice());
+        pointcutAdvisor.setPattern(".*to.*");
+        return pointcutAdvisor;
     }
 
 }
