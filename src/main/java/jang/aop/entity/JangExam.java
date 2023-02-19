@@ -45,14 +45,22 @@ public class JangExam implements Exam {
     @Override
     public int total() {
         int result = kor + eng + math + com;
-
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
     @Override
     public float avg() {
         float result = total() / 4.0f;
-
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
